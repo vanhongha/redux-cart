@@ -19,6 +19,21 @@ const cartSlice = createSlice({
 
       state.items.push({ ...item, total: item.quantity * item.price });
     },
+    subtractItem(state, action) {
+      const item = action.payload.item;
+      for (let i = 0; i < state.items.length; i++) {
+        if (item.id === state.items[i].id) {
+          state.items[i].quantity -= item.quantity;
+          state.items[i].total -= item.quantity * state.items[i].price;
+
+          if (state.items[i].quantity <= 0) {
+            state.items.splice(i, 1);
+          }
+
+          return;
+        }
+      }
+    },
   },
 });
 
