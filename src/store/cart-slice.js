@@ -4,15 +4,17 @@ const cartSlice = createSlice({
   name: "cartSlice",
   initialState: {
     items: [],
+    totalQuantity: 0,
   },
   reducers: {
     addItem(state, action) {
       const item = action.payload.item;
+      state.totalQuantity += item.quantity;
+
       for (let i = 0; i < state.items.length; i++) {
         if (item.id === state.items[i].id) {
           state.items[i].quantity += item.quantity;
           state.items[i].total += item.quantity * item.price;
-
           return;
         }
       }
@@ -21,6 +23,8 @@ const cartSlice = createSlice({
     },
     subtractItem(state, action) {
       const item = action.payload.item;
+      state.totalQuantity -= item.quantity;
+
       for (let i = 0; i < state.items.length; i++) {
         if (item.id === state.items[i].id) {
           state.items[i].quantity -= item.quantity;
